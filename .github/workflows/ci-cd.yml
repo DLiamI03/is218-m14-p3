@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/calculations-app
+  DOCKER_IMAGE: dliami03/is218-calc-app
   DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_calculations_db
   SECRET_KEY: test-secret-key-for-ci
   ALGORITHM: HS256
