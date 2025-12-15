@@ -56,12 +56,15 @@ class TestAuthenticationE2E:
     
     def test_user_registration_duplicate_username(self, page: Page, test_user_credentials):
         """Test registration with duplicate username (negative)."""
+        import uuid
+        unique_username = f"duptest_{uuid.uuid4().hex[:8]}"
+        
         page.goto(BASE_URL)
         
         # Register first user
         page.click("#show-register")
-        page.fill("#register-username", test_user_credentials["username"])
-        page.fill("#register-email", test_user_credentials["email"])
+        page.fill("#register-username", unique_username)
+        page.fill("#register-email", f"{unique_username}@example.com")
         page.fill("#register-password", test_user_credentials["password"])
         page.click("#registerForm button[type='submit']")
         
@@ -75,8 +78,8 @@ class TestAuthenticationE2E:
         # Try to register again with same username
         page.click("#show-register")
         page.wait_for_timeout(500)
-        page.fill("#register-username", test_user_credentials["username"])
-        page.fill("#register-email", f"different{test_user_credentials['email']}")
+        page.fill("#register-username", unique_username)
+        page.fill("#register-email", f"different_{unique_username}@example.com")
         page.fill("#register-password", test_user_credentials["password"])
         page.click("#registerForm button[type='submit']")
         
