@@ -42,6 +42,16 @@ jobs:
         pip install -r requirements.txt
         playwright install chromium
     
+    - name: Start application
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/calculations_db
+        SECRET_KEY: test-secret-key-for-ci
+        ALGORITHM: HS256
+        ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      run: |
+        uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+        sleep 5
+    
     - name: Run tests
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/calculations_db
